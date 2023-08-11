@@ -1,7 +1,8 @@
 import { FlatList, Text, View, StyleSheet } from "react-native";
 import { useData } from "../context/dataContext";
 import LimitLine from "../components/LimitLine";
-import { useEffect } from "react";
+import FadeInView from "../components/FadeInView";
+import Ionicons from "react-native-vector-icons/Ionicons";
 
 const LimitScreen = ({ navigation, route }) => {
 
@@ -9,19 +10,31 @@ const LimitScreen = ({ navigation, route }) => {
 
   return (
     <FlatList
+      columnWrapperStyle={styles.limitContainer}
+      numColumns={2}
+      ListEmptyComponent={
+        <FadeInView style={{justifyContent: "center", alignItems: "center", marginTop: "40%"}}>
+          <Ionicons name="layers" color="#a6a6a6" size={46} />
+          <Text style={{fontSize: 24, fontFamily: "golos-text_medium", color: "#a6a6a6", marginTop: 10}}>
+            Нет приложений
+          </Text>
+          <Text style={{fontFamily: "golos-text_regular", color: "#a6a6a6", marginTop: 20, textAlign: "center"}}>
+            У вас не установлены приложения, {"\n"}на которые можно поставить ограничения
+          </Text>
+        </FadeInView>
+    }
       ListHeaderComponent={
-      <View>
+      <FadeInView>
         <View>
           <View style={styles.header}><Text style={styles.headerText}>Лимиты</Text></View>
-          <View style={{ padding: 20, marginHorizontal: 10 }}><Text style={styles.text}>Нажмите на приоложение, чтобы
+          <View style={{ padding: 20, marginHorizontal: 10, marginBottom: 10 }}><Text style={styles.text}>Нажмите на приоложение, чтобы
             установить лимит использования на сегодня</Text></View>
         </View>
-      </View>
+      </FadeInView>
       }
       data={usageStats}
       renderItem={({ item }) => <LimitLine key={item.app} data={item} navigation={navigation} />}>
     </FlatList>
-
   );
 };
 
@@ -34,13 +47,20 @@ const styles = StyleSheet.create({
   headerText: {
     fontSize: 32,
     color: "#000",
-    fontFamily: "Montserrat-ExtraBold",
+    fontFamily: "golos-text_bold",
   },
   text: {
     fontSize: 16,
-    fontFamily: "Montserrat-Medium",
+    fontFamily: "golos-text_regular",
     color: "#727272",
   },
+  limitContainer: {
+    flexDirection: "row",
+    flexWrap: "wrap",
+    gap: 10,
+    justifyContent: "center",
+    alignItems: "center"
+  }
 });
 
 export default LimitScreen;

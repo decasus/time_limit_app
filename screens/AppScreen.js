@@ -29,7 +29,6 @@ const AppScreen = ({ navigation, route }) => {
       <View style={{ flex: 0, alignSelf: 'flex-start', backgroundColor: "white", paddingHorizontal: 30, paddingVertical: 30, borderTopRightRadius: 20, borderTopLeftRadius: 20 }}>
         <View>
           <View style={styles.header}><Text style={styles.headerText}>Лимит для {route.params.name}</Text></View>
-        {/*<View style={{ paddingTop: 20 }}><Text style={styles.text}>Выберите время</Text></View>*/}
           <SelectLayout
             label="flexDirection"
             values={[10, 15, 30, 60]}
@@ -67,19 +66,19 @@ const styles = StyleSheet.create({
   headerText: {
     fontSize: 22,
     color: "#000",
-    fontFamily: "Montserrat-ExtraBold",
+    fontFamily: "golos-text_bold",
   },
   text: {
     fontSize: 16,
-    fontFamily: "Montserrat-Medium",
+    fontFamily: "golos-text_regular",
     color: "#727272",
   },
   input: {
     height: 60,
     marginTop: 0,
-    borderWidth: 3,
+    borderWidth: 2,
     borderColor: "#e1e1e1",
-    fontFamily: "Montserrat-SemiBold",
+    fontFamily: "golos-text_medium",
     color: "#424242",
     fontSize: 18,
     padding: 20,
@@ -96,7 +95,7 @@ const styles = StyleSheet.create({
   },
   buttonLongLabel: {
     fontSize: 18,
-    fontFamily: "Montserrat-Bold",
+    fontFamily: "golos-text_bold",
     color: "white",
     textAlign: "center",
   },

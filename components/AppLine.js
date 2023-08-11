@@ -2,8 +2,8 @@ import { View, Text, Image, TouchableOpacity, StyleSheet, Animated } from "react
 import { useData } from "../context/dataContext";
 import images from "../constants/images";
 import { getTimeLeft, minutesTime, stringTime } from "../utils/functions";
-import { useEffect, useRef } from "react";
 import FadeInView from "./FadeInView";
+import Ionicons from "react-native-vector-icons/Ionicons";
 
 const AppLine = ({data, navigation}) => {
     const {settings} = useData();
@@ -15,6 +15,7 @@ const AppLine = ({data, navigation}) => {
     const barBackgroundColor = usagePercent < 40 ? "rgba(151,210,139,0.7)" : usagePercent < 80 ? "rgba(252,215,121,0.7)" : !usagePercent ? "lightgrey" : "rgba(255,81,81,0.7)";
 
     return (
+      limit !== 0 && !isNaN(limit) &&
       <FadeInView>
       <TouchableOpacity style={styles.line} onPress={() => navigation.navigate('App', {name: data.name})}>
         <View style={styles.app}>
@@ -22,27 +23,24 @@ const AppLine = ({data, navigation}) => {
             <View style={{overflow: "hidden"}}><Image style={styles.appIcon} source={images[data.name]} /></View>
             <Text style={styles.appNameText}>{data.name}</Text>
           </View>
-          <Text style={styles.appTime}>{stringTime(data.time)}</Text>
+          <View style={styles.appTime}>
+            <Ionicons name="lock-closed" color="#A2ABBC" size={14} />
+            <Text style={styles.appTimeText}>{stringTime(limit*60)}</Text>
+          </View>
         </View>
-        {limit !== 0 && !isNaN(limit) &&
         <View style={styles.bar}>
           <View style={[styles.barLine, {maxWidth: usagePercent + "%", backgroundColor: barBackgroundColor}]}>
           </View>
         </View>
-        }
         <View style={styles.limit}>
-          {(limit !== 0 && !isNaN(limit)) &&
-          <>
             <View>
-              <Text style={styles.limitText}>Лимит</Text>
-              <Text style={styles.limitTime}>{stringTime(limit*60)}</Text>
+              <Text style={styles.limitText}>Сегодня</Text>
+              <Text style={styles.limitTime}>{stringTime(data.time)}</Text>
             </View>
             <View>
               <Text style={styles.leftText}>Осталось</Text>
               <Text style={styles.leftTime}>{stringTime(timeLeft*60)}</Text>
             </View>
-          </>
-          }
         </View>
       </TouchableOpacity>
       </FadeInView>
@@ -70,14 +68,20 @@ const styles = StyleSheet.create({
     borderRadius: 100,
   },
   appNameText: {
-    fontSize: 22,
-    fontFamily: 'Montserrat-Bold',
+    fontSize: 20,
+    fontFamily: 'golos-text_demibold',
     color: "white"
   },
   appTime: {
-    fontSize: 20,
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
+    gap: 5
+  },
+  appTimeText: {
+    fontSize: 18,
     color: "#A2ABBC",
-    fontFamily: 'Montserrat-Bold'
+    fontFamily: 'golos-text_demibold',
   },
   bar: {
     height: 15,
@@ -105,25 +109,25 @@ const styles = StyleSheet.create({
   limitText: {
     fontSize: 16,
     color: "#A2ABBC",
-    fontFamily: 'Montserrat-Medium'
+    fontFamily: 'golos-text_regular'
   },
   leftText: {
     fontSize: 16,
     color: "#A2ABBC",
-    fontFamily: 'Montserrat-Medium',
+    fontFamily: 'golos-text_regular',
     textAlign: 'right'
   },
   limitTime: {
     marginTop: 5,
-    fontSize: 20,
-    fontFamily: 'Montserrat-Bold',
+    fontSize: 18,
+    fontFamily: 'golos-text_demibold',
     color: "white"
   },
   leftTime: {
     alignSelf: "flex-end",
     marginTop: 5,
-    fontSize: 20,
-    fontFamily: 'Montserrat-Bold',
+    fontSize: 18,
+    fontFamily: 'golos-text_demibold',
     color: "white"
   },
   line: {
@@ -131,10 +135,10 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: "column",
     gap: 10,
-    backgroundColor: "#242A2F",
+    backgroundColor: "rgb(36,42,47)",
     marginHorizontal: 20,
     marginVertical: 10,
-    borderRadius: 20
+    borderRadius: 20,
   },
 });
 

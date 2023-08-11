@@ -1,16 +1,14 @@
 import { NavigationContainer } from "@react-navigation/native";
 import AppScreen from "./screens/AppScreen";
-import HomeScreen from "./screens/HomeScreen";
 import { DataProvider } from "./context/dataContext";
 import PermissionScreen from "./screens/PermissionScreen";
-import LimitScreen from "./screens/LimitScreen";
 import { createStackNavigator, TransitionPresets } from "@react-navigation/stack";
-import StatsScreen from "./screens/StatsScreen";
-import { LogBox } from 'react-native';
+import { LogBox } from "react-native";
+import TabNavigator from "./navigation/TabNavigator";
 
 const RootStack = createStackNavigator();
 
-LogBox.ignoreLogs(['new NativeEventEmitter']); // Ignore log notification by message
+LogBox.ignoreLogs(["new NativeEventEmitter"]); // Ignore log notification by message
 LogBox.ignoreAllLogs(); //Ignore all log notifications
 
 export default function App() {
@@ -28,18 +26,19 @@ export default function App() {
               name="Permission"
               component={PermissionScreen}
             />
-            <RootStack.Screen
-              name="Home"
-              component={HomeScreen}
-            />
-            <RootStack.Screen
-              name="Limit"
-              component={LimitScreen}
-            />
-            <RootStack.Screen
-              name="Stats"
-              component={StatsScreen}
-            />
+            {/*<RootStack.Screen*/}
+            {/*  name="Home"*/}
+            {/*  component={HomeScreen}*/}
+            {/*/>*/}
+            {/*<RootStack.Screen*/}
+            {/*  name="Limit"*/}
+            {/*  component={LimitScreen}*/}
+            {/*/>*/}
+            {/*<RootStack.Screen*/}
+            {/*  name="Stats"*/}
+            {/*  component={StatsScreen}*/}
+            {/*/>*/}
+            <RootStack.Screen name="Root" component={TabNavigator} />
           </RootStack.Group>
           <RootStack.Group
             screenOptions={({ route }) => {

@@ -2,6 +2,8 @@ import { FlatList, Text, View, StyleSheet, TouchableOpacity } from "react-native
 import AppLine from "../components/AppLine";
 import { useData } from "../context/dataContext";
 import { useEffect, useState } from "react";
+import FadeInView from "../components/FadeInView";
+import Ionicons from "react-native-vector-icons/Ionicons";
 
 const HomeScreen = ({ navigation, route }) => {
 
@@ -16,19 +18,30 @@ const HomeScreen = ({ navigation, route }) => {
 
   return (
     <FlatList
+      ListEmptyComponent={
+      <FadeInView style={{justifyContent: "center", alignItems: "center", marginTop: "40%"}}>
+        <Ionicons name="lock-open" color="#a6a6a6" size={46} />
+        <Text style={{fontSize: 24, fontFamily: "golos-text_medium", color: "#a6a6a6", marginTop: 10}}>
+          Нет лимитов
+        </Text>
+        <Text style={{fontFamily: "golos-text_regular", color: "#a6a6a6", marginTop: 20, textAlign: "center"}}>
+          Чтобы добавить новое ограничение, {"\n"}нажмите кнопку +
+        </Text>
+      </FadeInView>
+    }
       ListHeaderComponent={
-        <View>
+        <FadeInView>
           <View style={styles.header}><Text style={styles.headerText}>Здравствуйте</Text></View>
-          <View style={{ padding: 20, marginHorizontal: 10 }}><Text style={styles.text}>Здесь Вы можете настроить лимиты, посмотреть статистику, а также увидеть активные ограничения</Text></View>
-          <View style={styles.buttons}>
+          <View style={{ padding: 20, marginHorizontal: 10 }}><Text style={styles.text}>Здесь Вы можете увидеть активные ограничения</Text></View>
+          {/*          <View style={styles.buttons}>
             <TouchableOpacity style={[styles.button, {backgroundColor: "#7ebe45"}]} onPress={() => navigation.navigate("Stats")}>
               <Text style={styles.buttonLabel}>Статистика приложений</Text>
             </TouchableOpacity>
             <TouchableOpacity style={[styles.button, {backgroundColor: "#F18766"}]} onPress={() => navigation.navigate("Limit")}>
               <Text style={styles.buttonLabel}>Установить лимиты</Text>
             </TouchableOpacity>
-          </View>
-        </View>
+          </View>*/}
+        </FadeInView>
       }
       data={activeStats}
       renderItem={({ item }) => <AppLine key={item.app} data={item} navigation={navigation} />}>
@@ -45,11 +58,11 @@ const styles = StyleSheet.create({
   headerText: {
     fontSize: 32,
     color: "#000",
-    fontFamily: "Montserrat-ExtraBold",
+    fontFamily: "golos-text_bold",
   },
   text: {
     fontSize: 16,
-    fontFamily: "Montserrat-Medium",
+    fontFamily: "golos-text_regular",
     color: "#727272",
   },
   buttons: {
@@ -68,7 +81,7 @@ const styles = StyleSheet.create({
   buttonLabel: {
     marginLeft: 15,
     fontSize: 18,
-    fontFamily: "Montserrat-Bold",
+    fontFamily: "golos-text_bold",
     color: "white",
     textAlign: "left",
   },

@@ -24,8 +24,6 @@ const styles = StyleSheet.create({
   app: {
     flexDirection: "row",
     flex: 1,
-    marginTop: 0,
-    marginBottom: 5,
     justifyContent: "space-between",
     verticalAlign: "middle"
   },
@@ -40,14 +38,14 @@ const styles = StyleSheet.create({
     borderRadius: 100,
   },
   appNameText: {
-    fontSize: 22,
-    fontFamily: 'Montserrat-Bold',
+    fontSize: 18,
+    fontFamily: 'golos-text_bold',
     color: "#242A2F"
   },
   appTime: {
-    fontSize: 20,
+    fontSize: 18,
     color: "#737373",
-    fontFamily: 'Montserrat-Bold'
+    fontFamily: 'golos-text_medium'
   },
   line: {
     paddingHorizontal: 15,

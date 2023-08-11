@@ -5,6 +5,7 @@ import {
 } from "react-native";
 import { useEffect, useState } from "react";
 import { useData } from "../context/dataContext";
+import FadeInView from "../components/FadeInView";
 
 const {StatsModule} = NativeModules;
 
@@ -13,22 +14,24 @@ const PermissionScreen = ({navigation, route}) => {
   const { isLoading, hasPermission, updatePermissionStatus } = useData();
 
   useEffect(() => {
-     if(hasPermission) navigation.replace("Home");
+     if(hasPermission) navigation.replace("Root");
   }, [hasPermission]);
 
   const checkPermission = () => {
     updatePermissionStatus();
-    if(hasPermission) navigation.replace("Home");
+    if(hasPermission) navigation.replace("Root");
   }
 
   return (
     !hasPermission && !isLoading &&
-    <ScrollView style={{marginHorizontal: 30}}>
+    <FadeInView style={{marginHorizontal: 30, flex: 1, justifyContent: "space-between"}}>
       <View>
         <View style={styles.header}><Text style={styles.headerText}>Здравствуйте</Text></View>
-        <View style={{ paddingTop: 20 }}><Text style={styles.text}>Для начала работы Вам необходимо предоставить доступ к данным об использовании приложений. Это можно сделать в настройках системы. По завершению вернитесь в приложение и нажмите кнопку "Продолжить".</Text></View>
+        <View style={{ paddingTop: 20 }}><Text style={styles.text}>Для начала работы Вам необходимо предоставить доступ к данным об использовании приложений, а также к отправке уведомлений. Это можно сделать в настройках системы. </Text></View>
+        <View style={{ paddingTop: 20 }}><Text style={styles.text}>По завершению вернитесь в приложение и нажмите «Продолжить».</Text></View>
+
       </View>
-      <View style={{marginTop: 20}}>
+      <View style={{marginBottom: 30}}>
         <TouchableOpacity style={[styles.buttonLong, {backgroundColor: "#3a5d8a"}]} onPress={() => openUsageAccessSettings()}>
           <Text style={styles.buttonLongLabel}>Перейти в настройки</Text>
         </TouchableOpacity>
@@ -36,7 +39,7 @@ const PermissionScreen = ({navigation, route}) => {
           <Text style={styles.buttonLongLabel}>Продолжить</Text>
         </TouchableOpacity>
       </View>
-    </ScrollView>
+    </FadeInView>
   );
 };
 
@@ -51,11 +54,11 @@ const styles = StyleSheet.create({
   headerText: {
     fontSize: 32,
     color: "#000",
-    fontFamily: 'Montserrat-ExtraBold',
+    fontFamily: 'golos-text_bold',
   },
   text: {
     fontSize: 16,
-    fontFamily: 'Montserrat-Medium',
+    fontFamily: 'golos-text_regular',
     color: '#727272'
   },
   buttonLong: {
@@ -65,11 +68,11 @@ const styles = StyleSheet.create({
     alignSelf: "center",
     marginHorizontal: 30,
     borderRadius: 10,
-    marginTop: 20
+    marginTop: 15
   },
   buttonLongLabel: {
     fontSize: 18,
-    fontFamily: "Montserrat-Bold",
+    fontFamily: "golos-text_bold",
     color: "white",
     textAlign: "center",
   },

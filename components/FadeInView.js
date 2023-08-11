@@ -9,6 +9,7 @@ const FadeInView = props => {
       duration: 500,
       useNativeDriver: true,
     }).start();
+
   }, [fadeAnim]);
 
   return (

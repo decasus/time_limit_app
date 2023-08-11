@@ -45,7 +45,7 @@ const styles = StyleSheet.create({
   },
   buttonLabel: {
     fontSize: 18,
-    fontFamily: "Montserrat-Bold",
+    fontFamily: "golos-text_demibold",
     color: "#424242"
   },
   selectedLabel: {

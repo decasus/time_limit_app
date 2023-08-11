@@ -33,9 +33,9 @@ const StatsScreen = ({ navigation, route }) => {
     // else
     getStoredStatsData(interval).then(result => {
       setIntervalStats(Object.entries(result).map(([app, time]) => {
-        return { app, name: getNameByApp(app), time: parseInt(time/1000) }
-      }).sort((a,b) => b.time - a.time));
-    })
+        return { app, name: getNameByApp(app), time: parseInt(time / 1000) };
+      }).sort((a, b) => b.time - a.time));
+    });
   }, [interval]);
 
   // useEffect(() => {
@@ -43,43 +43,47 @@ const StatsScreen = ({ navigation, route }) => {
   // }, [intervalStats]);
 
   return (
-    <>
       <FlatList
         ListHeaderComponent={
-          <ScrollView>
-            <View>
+          <ScrollView
+            >
+            <FadeInView>
               <View style={styles.header}><Text style={styles.headerText}>Статистика</Text></View>
               <View style={{ padding: 20, marginHorizontal: 10 }}><Text style={styles.text}>Здесь Вы можете увидеть
                 статистику использования приложений</Text></View>
-            </View>
-            <View style={{flex: 1}}>
-              { intervalStats.length !== 0  &&
-                <StatsChart stats={intervalStats}/>
-              }
-            </View>
+            </FadeInView>
+            {intervalStats.length !== 0 && <>
+            <FadeInView>
+              <SwitchSelector
+                options={options}
+                initial={0}
+                onPress={value => setInterval(value)}
+                buttonColor="#242A2F"
+                textColor={"#727272"}
+                fontSize={18}
+                selectedTextStyle={{ fontFamily: "golos-text_bold" }}
+                textStyle={{ fontFamily: "golos-text_medium" }}
+                selectedTextContainerStyle={{}}
+                style={{ marginHorizontal: 20 }}
+                height={45}
+                hasPadding
+                borderColor={"#e8e8e8"}
+                valuePadding={0}
+                borderWidth={3}
+              />
+              </FadeInView>
+              <FadeInView style={{ flex: 1 }}>
+                  <StatsChart stats={intervalStats} />
+              </FadeInView></>
+            }
           </ScrollView>
+        }
+        ListFooterComponent={
+          <View style={{ height: 20 }}></View>
         }
         data={intervalStats}
         renderItem={({ item }) => <StatLine key={item.app} data={item} navigation={navigation} clickable={false} />}>
       </FlatList>
-      <SwitchSelector
-        options={options}
-        initial={0}
-        onPress={value => setInterval(value)}
-        buttonColor="#242A2F"
-        textColor={"#727272"}
-        fontSize={20}
-        selectedTextStyle={{ fontFamily: "Montserrat-Bold" }}
-        textStyle={{ fontFamily: "Montserrat-SemiBold" }}
-        selectedTextContainerStyle={{}}
-        style={{marginHorizontal: 20, marginBottom: 15}}
-        height={55}
-        hasPadding
-        borderColor={"#e8e8e8"}
-        valuePadding={0}
-        borderWidth={3}
-      />
-    </>
   );
 };
 
@@ -92,11 +96,11 @@ const styles = StyleSheet.create({
   headerText: {
     fontSize: 32,
     color: "#000",
-    fontFamily: "Montserrat-ExtraBold",
+    fontFamily: "golos-text_bold",
   },
   text: {
     fontSize: 16,
-    fontFamily: "Montserrat-Medium",
+    fontFamily: "golos-text_regular",
     color: "#727272",
   },
 });
