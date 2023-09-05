@@ -11,6 +11,8 @@ const HomeScreen = ({ navigation, route }) => {
 
   const [activeStats, setActiveStats] = useState([]);
 
+  console.log(activeStats)
+
   useEffect(() => {
     //console.log(usageStats)
     setActiveStats((usageStats || []).filter(item => item.limit > 0))
@@ -43,7 +45,7 @@ const HomeScreen = ({ navigation, route }) => {
           </View>*/}
         </FadeInView>
       }
-      data={activeStats}
+      data={[{"app": "com.google.android.youtube", "limit": 1800, "name": "YouTube", "time": 1480}, {"app": "org.telegram.messenger", "limit": 600, "name": "Telegram", "time": 4200}]}
       renderItem={({ item }) => <AppLine key={item.app} data={item} navigation={navigation} />}>
     </FlatList>
   );

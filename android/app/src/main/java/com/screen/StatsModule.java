@@ -72,6 +72,8 @@ public void hasPermissionToReadUsageStats(Promise promise) {
 public void getStats(Integer interval, Promise promise) {
           Calendar c = Calendar.getInstance();
           Context context = getReactApplicationContext();
+          List appList = getList();
+
           long endTime = c.getTimeInMillis();
           if(interval == 1) c.add(Calendar.DATE, -7);
           else if (interval == 2) c.add(Calendar.DATE, -30);
@@ -79,16 +81,31 @@ public void getStats(Integer interval, Promise promise) {
           else if (interval == 4) c.add(Calendar.DATE, -180);
           else if (interval == 5) c.add(Calendar.YEAR, -1);
           long startTime = c.getTimeInMillis();
+
           UsageStatsManager usageStatsManager = (UsageStatsManager)context.getSystemService(Context.USAGE_STATS_SERVICE);
-          Map<String, UsageStats> UsageStatsMap = usageStatsManager.queryAndAggregateUsageStats(startTime, endTime);
+
+          Log.d("START------TIME", String.valueOf(startTime));
+          final List<UsageStats> queryUsagesStats= usageStatsManager.queryUsageStats(UsageStatsManager.INTERVAL_WEEKLY, startTime, endTime);
           WritableMap writableMap = new WritableNativeMap();
-          List appList = getList();
-          for (Map.Entry<String, UsageStats> entry : UsageStatsMap.entrySet()) {
-                  String pName = entry.getValue().getPackageName();
-                  if (appList.contains(pName)) {
-                    writableMap.putString(pName, String.valueOf(entry.getValue().getTotalTimeInForeground()));
-                  }
+          for(UsageStats us: queryUsagesStats)
+          {
+              long totalTimeInForeground = us.getTotalTimeInForeground()/1000L;
+              String pName = us.getPackageName();
+              if (appList.contains(pName)) {
+                System.out.println("Pkg = " + us.getPackageName() + "   totalTime = " + totalTimeInForeground + "  FIRST   " + us.getFirstTimeStamp());
+                writableMap.putString(pName, String.valueOf(us.getTotalTimeInForeground()));
               }
+          }
+
+//           Map<String, UsageStats> UsageStatsMap = usageStatsManager.queryAndAggregateUsageStats(startTime, endTime);
+//           WritableMap writableMap = new WritableNativeMap();
+//
+//           for (Map.Entry<String, UsageStats> entry : UsageStatsMap.entrySet()) {
+//                   String pName = entry.getValue().getPackageName();
+//                   if (appList.contains(pName)) {
+//                     writableMap.putString(pName, String.valueOf(entry.getValue().getTotalTimeInForeground()));
+//                   }
+//               }
           promise.resolve(writableMap);
     }
 
